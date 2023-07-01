@@ -1,0 +1,37 @@
+{% extends '_layout.html' %}
+
+{% block title %}login{% endblock %}
+
+{% block content %}
+        <section class="container forms withclass">
+            <div class="form login">
+                <div class="form-content">
+                    <header>Login</header>
+                    <form method="post" action="{% url 'login_page' %}">
+                        {% csrf_token %}
+                        <div class="field input-field">
+                            {{ login_form.email.label_tag }}
+                            {{ login_form.email }}
+                            {{ login_form.email.errors }}
+                        </div>
+                    </br>
+                        <div class="field input-field">
+                            {{ login_form.password.label_tag }}
+                            {{ login_form.password }}
+                            {{ login_form.password.errors }}
+                        </div>
+                    </br>
+                        <div class="form-link">
+                            <a href="{% url 'forget_password_page' %}" class="forgot-pass">Forgot password?</a>
+                        </div>
+
+                        <div class="field button-field">
+                            <button>Login</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Don't have an account? <a href="{% url 'register_page' %}">Signup</a></span>
+                    </div>
+                </div>
+{% endblock %} 

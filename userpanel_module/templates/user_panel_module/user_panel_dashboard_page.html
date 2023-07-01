@@ -1,0 +1,154 @@
+{% extends '_layout.html' %}
+{% load render_partial %}
+
+{% block title %}
+    dashboard
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="container">
+    <div class="container withclassconlist">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contactss listcon">
+                    <h1 class="contacts__title">contacts of {{ user.name }}</h1>
+                    <form id="deleteForm" method="POST" action="{% url 'delete_selected_contacts' %}">
+                        {% csrf_token %}
+                        {% for contact in contacts %}
+                            <section class="contacts__section">
+                                <ul class="contacts__list">
+                                    <hr>
+                                    <li class="contacts__item">Name: {{ contact.name }}</li>
+                                    <li class="contacts__item">Phone Number: {{ contact.phone_number }}</li>
+                                    <li class="contacts__item">Email: {{ contact.email }}</li>
+                                    <div class="col">
+                                        <a id="deleteButton" href="{% url 'delete_contact' contact.identifier %}">Delete</a>
+                                    </div>
+                                </ul>
+                            </section>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+        <button class="button button1" data-toggle="modal" data-target="#addContactModal">
+            Add New
+        </button>
+        
+        <!-- Add Contact Modal -->
+        <div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addContactModalLabel">Add Contact</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="add-main">
+                            <div class="containers">
+                                <form class="formclass theform" id="theform" action=''>
+                                    {% csrf_token %}
+
+                                    <label for="name">Name:</label><br>
+                                    <input class="imput" id="dataname" type="text" name="name" required placeholder="Your name.."><br>
+
+
+                                    <label for="phone_number">Phone Number:</label><br>
+                                    <input class="imput" id="datanumber" type="number" name="phone_number" required placeholder="Phone Number.."><br>
+
+
+                                    <label for="email">Email:</label><br>
+                                    <input class="imput-email" id="dataemail" type="email" name="email" required placeholder="Email.."><br>
+
+
+                                    {% comment %} <input type="submit" value="Add Contact"> {% endcomment %}
+
+                                    <button id="btnsubmit">submit</button>
+
+                                    {% if success_message %}
+                                        <ul class="alert alert-success" role="alert">
+                                            {{ success_message }}
+                                        </ul>
+                                    {% endif %}
+                                    {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </form>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<button class="button button1" data-toggle="modal" data-target="#resetPasswordModal">
+    Reset Password
+</button>
+
+<!-- Reset Password Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container customcontainer">
+                    <h1 class="contacts__title">Reset Password of {{ user.name }}</h1>
+                    <form method="post" action="{% url 'reset_password_page' %}">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label for="{{ reset_pass_form.password.id_for_label }}">{{ reset_pass_form.password.label_tag }}</label>
+                            <input type="password" class="form-control" id="password" name="{{ reset_pass_form.password.html_name }}" required>
+                            {{ reset_pass_form.password.errors }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ reset_pass_form.confirm_password.id_for_label }}">{{ reset_pass_form.confirm_password.label_tag }}</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="{{ reset_pass_form.confirm_password.html_name }}" required>
+                            {{ reset_pass_form.confirm_password.errors }}
+                        </div>
+
+                        <div class="field button-field">
+                            <button type="submit" class="resetpassclass btn btn-primary">Reset Password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="button button1">
+    <a href="{% url 'login_page' %}">
+        logout
+    </a>
+</button>
+
+
+
+{% endblock %}

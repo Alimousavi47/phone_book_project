@@ -1,0 +1,27 @@
+{% extends '_layout.html' %}
+{% block title %}
+    contacts
+{% endblock %}
+
+
+{% block content %}
+<div class="contacts">
+    <h1 class="contacts__title">My contacts</h1>
+        {% comment %} {% for letter, contacts in groups %} {% endcomment %}
+            <h2>{{ letter }}</h2>
+            {% for contact in contacts %}
+                <section class="contacts__section">
+                    <ul class="contacts__list">
+                        <li class="contacts__item">Name: {{ contact.name }}</li>
+                        <li class="contacts__item">Phone Number: {{ contact.phone_number }}</li>
+                        <li class="contacts__item">Email: {{ contact.email }}</li>
+                        <li class="contacts__item">
+                            {% comment %} <a href="{% url 'delete_contact' contact.id %}">Delete</a> {% endcomment %}
+                        </li>    
+                        <hr>
+                    </ul>
+                </section>    
+            {% endfor %}
+        {% comment %} {% endfor %} {% endcomment %}
+</div>
+{% endblock %}
